@@ -29,7 +29,7 @@ function ajaxGet(url, callback) {
   req.send(null);
 }
 
-ajaxGet("http://codeforces.com/api/contest.list", resp => {
+ajaxGet("https://codeforces.com/api/contest.list", resp => {
   var contest = JSON.parse(resp);
   state = true;
   for (let i = 0; state; i++) {
