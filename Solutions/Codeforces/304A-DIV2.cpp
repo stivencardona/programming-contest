@@ -2,34 +2,24 @@
 
 using namespace std;
 
+const int oo = 1e9;
+
+int root(int i)
+{
+    int r = sqrt(i);
+    int ans = (i / r == r && !(i % r)) ? r : oo;
+    return ans;
+}
+
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    long long deuda;
-    int n, k, w;
-    cin >> n >> k >> w;
-    deuda = ((w * w + w) / 2) * n - k;
-    if (deuda > 0)
-        cout << deuda << "\n";
-    else
-        cout << 0 << "\n";
+    int n;
+    cin >> n;
+    vector<bool> a(n + 1, true);
+    int ans = 0;
+    for (int i = 1; i <= n; i++)
+        for (int j = i + 1; j <= n; j++)
+            ans += (root(i * i + j * j) <= n);
+    cout << ans << "\n";
     return 0;
 }
-#include <bits/stdc++.h>
-
-using namespace std;
-
-int main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    long long deuda;
-    int n, k, w;
-    cin >> n >> k >> w;
-    deuda = ((w * w + w) / 2) * n - k;
-    if (deuda > 0)
-        cout << deuda << "\n";
-    else
-        cout << 0 << "\n";
-    return 0;
