@@ -19,61 +19,14 @@
 	</head>
 
 	<body>
-		<nav>
-			<div class="nav-wrapper">
-				<!-- <i class="large material-icons">insert_chart</i> -->
-				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a href="#">Contests</a></li>
-					<li><a href="#">Wiki</a></li>
-					<!--
-            <li><a href="collapsible.html">C++</a></li>
-            <li><a href="collapsible.html">Page Code</a></li>
-          -->
-				</ul>
-			</div>
-		</nav>
-		<div class="container z-depth-1">
-			<div class="row" id="contests">
-				<!--
-          <div class="col s6">
-            <div class="card hoverable">
-              <div class="card-image waves-effect waves-block waves-light"></div>
-              <div class="card-content">
-                <span class="card-title activator grey-text text-darken-4"
-                  >Contest N° X<i class="material-icons right">more_vert</i></span
-                >
-                <p><a class="waves-effect waves-light btn">Go</a></p>
-              </div>
-              <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4"
-                  >Card Title<i class="material-icons right">close</i></span
-                >
-                <p>
-                  Here is some more information about this product that is only
-                  revealed once clicked on.
-                </p>
-              </div>
-            </div>
-          </div>
-        -->
-			</div>
-			<div class="row">
-				<div class="col s12 center">
-					<ul class="pagination">
-						<li class="disabled">
-							<a href="#!"><i class="material-icons">chevron_left</i></a>
-						</li>
-						<li class="active"><a href="#!">1</a></li>
-						<li class="disabled">
-							<a href="#!"><i class="material-icons">chevron_right</i></a>
-						</li>
-					</ul>
-				</div>
-			</div>
+		<br />
+		<div class="container">
+			<br />
+			<div class="row" id="contests"></div>
 		</div>
 		<div class="fixed-action-btn">
 			<a class="btn-floating btn-large red">
-				<i class="large material-icons">mode_edit</i>
+				<i class="large material-icons">keyboard_arrow_left</i>
 			</a>
 			<ul>
 				<li>
@@ -87,8 +40,8 @@
 					>
 				</li>
 				<li>
-					<a class="btn-floating green"
-						><i class="material-icons">publish</i></a
+					<a class="btn-floating green" href="./views/problems.html"
+						><i class="material-icons">list_alt</i></a
 					>
 				</li>
 				<li>
@@ -101,5 +54,34 @@
 		<!-- JavaScript at end of body for optimized loading -->
 		<script type="text/javascript" src="index.js"></script>
 		<script type="text/javascript" src="js/materialize.min.js"></script>
+		<script>
+			ajaxGet("https://codeforces.com/api/contest.list", resp => {
+				var contest = JSON.parse(resp);
+				state = true;
+				for (let i = 0; state; i++) {
+					// const date = new Date(null);
+					// console.log(contest.result[i].startTimeSeconds);
+					const url = "http://codeforces.com/contests/" + contest.result[i].id;
+					const date = new Date(null);
+					date.setSeconds(contest.result[i].startTimeSeconds);
+					const startTime = date.toISOString();
+					const newNode =
+						'<div class="col s6"><div class="card hoverable"><div class="card-image waves-effect waves-block waves-light"></div><div class="card-content"><span class="card-title activator grey-text text-darken-4">' +
+						contest.result[i].name +
+						'<i class="material-icons right">more_vert</i></span><p><a class="waves-effect waves-light btn" href="' +
+						url +
+						'">Go</a><span class="right" >' +
+						date.toDateString() +
+						'</span></p></div><div class="card-reveal"><span class="card-title grey-text text-darken-4">Card Title<i class="material-icons right">close</i></span><p>Faltan ' +
+						startTime +
+						" para que inicie el contest </p></div></div></div>";
+					document
+						.getElementById("contests")
+						.insertAdjacentHTML("beforeend", newNode);
+					state = contest.result[i].phase == "BEFORE";
+				}
+				// console.log(contest.result[0]);
+			});
+		</script>
 	</body>
 </html>
