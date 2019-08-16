@@ -44,6 +44,23 @@
 						</div>
 					</li>
 				</ul>
+				<center>
+					<ul class="pagination" id="pages">
+						<li class="waves-effect">
+							<a name="decrement" onclick="updatePage(this.name)"
+								><i class="material-icons">chevron_left</i></a
+							>
+						</li>
+						<li class="active">
+							<a id="current-page" onclick="">1</a>
+						</li>
+						<li class="waves-effect">
+							<a name="increment" onclick="updatePage(this.name)"
+								><i class="material-icons">chevron_right</i></a
+							>
+						</li>
+					</ul>
+				</center>
 			</div>
 		</div>
 		<div class="fixed-action-btn">
@@ -77,30 +94,48 @@
 		<script type="text/javascript" src="../index.js"></script>
 		<script type="text/javascript" src="../js/materialize.min.js"></script>
 		<script>
-			function deployProblems() {
+			let currentPage = 1;
+			let maxPage = 1;
+			let problems;
+			function searchProblems() {
 				let tag = document.getElementById("autocomplete-input").value;
 				ajaxGet(
 					`https://codeforces.com/api/problemset.problems?tags=${tag}`,
 					resp => {
 						let response = JSON.parse(resp);
-						for (let i = 0; i < 20; i++) {
-							const obj = response.result.problems[i];
-							const url = `https://codeforces.com/contest/${
-								obj.contestId
-							}/problem/${obj.index}`;
-							const newNode = `
+						problems = response.result.problems;
+						maxPage = problems.length / 10 + (problems.length % 10 > 0);
+						console.log(problems.length);
+						console.log(maxPage);
+					}
+				);
+			}
+
+			function deployProblems() {
+				for (let i = 0; i < 10; i++) {
+					const obj = response.result.problems[i];
+					const url = `https://codeforces.com/contest/${
+						obj.contestId
+					}/problem/${obj.index}`;
+					const newNode = `
 							<li class="collection-item">
 								<div>
 									${obj.name}
 									<a href="${url}" class="secondary-content"><i class="material-icons">send</i></a>
 							</div>
 						</li>`;
-							document
-								.getElementById("problems")
-								.insertAdjacentHTML("beforeend", newNode);
-						}
-					}
-				);
+					document
+						.getElementById("problems")
+						.insertAdjacentHTML("beforeend", newNode);
+				}
+			}
+
+			function updatePage(action) {
+				let currentTag = document.getElementById("current-page");
+				if (action == "increment" && currentPage < maxPage)
+					currentTag.text = ++currentPage;
+				if (action == "decrement" && currentPage > 1)
+					currentTag.text = --currentPage;
 			}
 		</script>
 	</body>
