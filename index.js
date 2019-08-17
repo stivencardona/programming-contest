@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		data: {
 			dp: null,
 			greedy: null,
-			math: null
+			math: null,
+			sortings: null,
+			implementation: null
 		}
 	});
 });
