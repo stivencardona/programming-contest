@@ -6,7 +6,12 @@ document.addEventListener("DOMContentLoaded", function() {
 			greedy: null,
 			math: null,
 			sortings: null,
-			implementation: null
+			implementation: null,
+			graphs: null,
+			"constructive algorithms": null,
+			"binary search": null,
+			interactive: null,
+			"shortest paths": null
 		}
 	});
 });
