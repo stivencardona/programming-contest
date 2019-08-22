@@ -1,5 +1,5 @@
-int ternary_search() {
-	int lo = 0, hi = 8;
+int ternary_search(vector<T> &v) {
+	int lo = 0, hi = v.size() - 1;
 	while (hi - lo > 2) {
 		int mid1 = lo + (hi - lo) / 3;
 		int mid2 = hi - (hi - lo) / 3;
