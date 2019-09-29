@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Import Google Icon Font -->
+		<link
+			href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet"
+		/>
+		<!-- Import materialize.css -->
+		<link
+			type="text/css"
+			rel="stylesheet"
+			href="../css/materialize.min.css"
+			media="screen,projection"
+		/>
+
+		<!-- Let browser know website is optimized for mobile -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</head>
+
+	<body>
+		<center>
+			<h1>Look your raiting</h1>
+		</center>
+		<br />
+		<div class="container">
+			<div class="row">
+				<div class="col s12">
+					<div class="row">
+						<div class="input-field col s12">
+							<i onclick="fillData()" class="waves-effect material-icons prefix"
+								>search</i
+							>
+							<input type="text" id="handle" />
+							<label for="handle">Handle</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<canvas id="myChart"></canvas>
+		</div>
+		<div class="fixed-action-btn">
+			<a class="btn-floating btn-large red">
+				<i class="large material-icons">keyboard_arrow_left</i>
+			</a>
+			<ul>
+				<li>
+					<a class="btn-floating yellow" href="#"
+						><i class="material-icons">insert_chart</i></a
+					>
+				</li>
+				<li>
+					<a class="btn-floating green" href="./problems.html"
+						><i class="material-icons">list_alt</i></a
+					>
+				</li>
+				<li>
+					<a class="btn-floating blue" href="../index.html"
+						><i class="material-icons">visibility</i></a
+					>
+				</li>
+			</ul>
+		</div>
+		<!-- JavaScript at end of body for optimized loading -->
+		<script type="text/javascript" src="../js/chart.min.js"></script>
+		<script type="text/javascript" src="../index.js"></script>
+		<script type="text/javascript" src="../js/materialize.min.js"></script>
+		<script>
+			let ctx = document.getElementById("myChart").getContext("2d");
+			function fillData() {
+				let handle = document.getElementById("handle").value;
+				console.log(handle);
+				let url = `https://codeforces.com/api/user.status?handle=${handle}`;
+				ajaxGet(url, resp => {
+					let response = JSON.parse(resp);
+					let frec = new Array(
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0,
+						0
+					);
+					response.result.forEach(submission => {
+						if (
+							submission.verdict == "OK" &&
+							submission.problem.rating >= 1000 &&
+							submission.problem.rating <= 3000
+						) {
+							frec[(submission.problem.rating - 1000) / 100] += 1;
+						}
+					});
+					console.log(frec);
+					deployChart(frec);
+				});
+			}
+			function deployChart(frec) {
+				let chart = new Chart(ctx, {
+					// The type of chart we want to create
+					type: "line",
+
+					// The data for our dataset
+					data: {
+						labels: [
+							"1000",
+							"1100",
+							"1200",
+							"1300",
+							"1400",
+							"1500",
+							"1600",
+							"1700",
+							"1800",
+							"1900",
+							"2000",
+							"2100",
+							"2200",
+							"2300",
+							"2400",
+							"2500",
+							"2600",
+							"2700",
+							"2800",
+							"2900",
+							"3000"
+						],
+						datasets: [
+							{
+								label: "My Stats",
+								backgroundColor: "rgb(118, 216, 105)",
+								borderColor: "rgb(50, 167, 61)",
+								data: frec
+							}
+						]
+					},
+
+					// Configuration options go here
+					options: {}
+				});
+			}
+		</script>
+	</body>
+</html>
