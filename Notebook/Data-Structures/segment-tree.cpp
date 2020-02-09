@@ -1,3 +1,7 @@
+/**
+ * Taken from: https//codeforces.com/blog/entry/18051
+ **/
+
 typedef long long ll;
 
 const int MN = 1e5; 
