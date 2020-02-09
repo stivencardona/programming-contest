@@ -1,5 +1,5 @@
 /**
- * Taken from: https//codeforces.com/blog/entry/18051
+ * Taken from: https://codeforces.com/blog/entry/18051
  **/
 
 typedef long long ll;
