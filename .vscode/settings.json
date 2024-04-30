@@ -1,0 +1,9 @@
+{
+    "editor.tabSize": 2,
+    "files.associations": {
+        ".env*": "dotenv",
+        "chrono": "cpp",
+        "complex": "cpp",
+        "random": "cpp"
+    }
+}
