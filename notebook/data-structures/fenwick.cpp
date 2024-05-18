@@ -1,23 +1,25 @@
-template <typename int>
-struct FenwickTree {
-  int n;
-  vector<int> tree;
+#include <bits/stdc++.h>
 
-  FenwickTree(int n) : n(n), tree(n + 1) {}
+using namespace std;
 
-  void update(int i, int val) {
-    while (i <= n) {
-      tree[i] += val;
-      i += (i & -i);
+#define LSOne(S) ((S) & -(S))
+
+typedef vector<int> vi;
+
+class FenwickTree {
+  private:
+    vi ft;
+  public:
+    FenwickTree(int m ) { ft.assign(m+1, 0);}
+    int rsq(int j) {
+      int sum = 0;
+      for(;j; j -= LSOne(j))
+        sum += ft[j];
+      return sum;
+    } 
+    int rsq(int i, int j) { return rsq(j) - rsq(i - 1); }
+    void update(int i, int v) {
+      for(; i < (int)ft.size(); i += LSOne(i))
+        ft[i] += v;
     }
-  }
-
-  int query(int i) {
-    int sum = 0;
-    while (i > 0) {
-      sum += tree[i];
-      i -= (i & -i);
-    }
-    return sum;
-  }
 };
